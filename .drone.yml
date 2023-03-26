@@ -1,0 +1,35 @@
+---
+kind: pipeline
+type: docker
+name: drone-deploy-test
+
+# volumes: # 声明数据卷（此为服务器中的实际目录）
+#   - name: node_modules # 数据卷名称
+#     host: # Host Volume
+#       path: /volumes/drone/volumes/blog/node_modules # 宿主机目录    #绝对路径
+#   - name: deploy_path
+#     host: 
+#       path: /workspace/blog
+
+steps:
+  - name: npm_build
+    image: node:16.19.1-slim
+    commands:
+      - npm install --registry=https://registry.npm.taobao.org
+      - npm run build
+
+  # - name: docker_build
+  #   image: plugins/docker
+  #   settings:
+  #     repo: 1234/abc # 镜像库名
+  #     tags: #分支
+  #       - dev
+  #     dry_run: false # boolean if the docker image should be pushed at the end 是否提交docker镜像 
+  #     purge: false # boolean if cleanup of the docker image should be done at the end # 是否清理镜像
+  #     no_cache: false # do not use cached intermediate containers 不使用缓存中间容器
+
+trigger:
+  branch:
+    - dev
+  event:
+    - push
