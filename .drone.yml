@@ -14,11 +14,11 @@ volumes: # 声明数据卷（此为服务器中的实际目录）
 steps:
   - name: npm_build
     image: node:16.19.1-slim
-    volumes: # 挂载数据卷（此为容器内的目录）
-      - name: node_modules # 数据卷名称
-        path: /drone/src/node_modules # 容器内目录 绝对路径
-      - name: deploy_path
-        path: /drone/src/html
+    # volumes: # 挂载数据卷（此为容器内的目录）
+    #   - name: node_modules # 数据卷名称
+    #     path: /drone/src/node_modules # 容器内目录 绝对路径
+    #   - name: deploy_path
+    #     path: /drone/src/html
     commands:
       - npm config set registry https://registry.npm.taobao.org
       - npm install
