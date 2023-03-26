@@ -28,6 +28,9 @@ steps:
       - cd ..
       - pwd
       - ls
+      - cd ..
+      - pwd
+      - ls
 
   # - name: docker_build
   #   image: plugins/docker
