@@ -3,34 +3,18 @@ kind: pipeline
 type: docker
 name: drone-docker-deploy-test
 
-# volumes: # 声明数据卷（此为服务器中的实际目录）
-#   - name: node_modules # 数据卷名称
-#     host: # Host Volume
-#       path: /volumes/drone/volumes/drone-ci-demo/node_modules # 宿主机目录    #绝对路径
-#   - name: deploy_path
-#     host: 
-#       path: /workspace/drone-ci-demo
+
 
 steps:
   - name: npm_build
     image: node:16.19.1-slim
-    # volumes: # 挂载数据卷（此为容器内的目录）
-    #   - name: node_modules # 数据卷名称
-    #     path: /drone/src/node_modules # 容器内目录 绝对路径
-    #   - name: deploy_path
-    #     path: /drone/src/html
+    volumes:
+      - name: node_modules # 数据卷名称
+        path: /drone/src/node_modules # 容器内目录 绝对路径
     commands:
       - npm config set registry https://registry.npm.taobao.org
       - npm install
       - npm run build
-      - pwd
-      - ls
-      - cd ..
-      - pwd
-      - ls
-      - cd ..
-      - pwd
-      - ls
 
   # - name: docker_build
   #   image: plugins/docker
@@ -47,3 +31,8 @@ trigger:
     - dev
   event:
     - push
+
+volumes:
+  - name: node_modules
+    host:
+      path: /data/drone/drone-ci-demo/node_modules
