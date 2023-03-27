@@ -23,7 +23,8 @@ steps:
         path: /var/run/docker.sock
     commands:
       - docker build -t ${DRONE_REPO_NAME} .
-      - if [ $(docker ps -aq --filter name=${DRONE_REPO_NAME}-c) ]; then docker stop -f ${DRONE_REPO_NAME}-c; then docker rm -f ${DRONE_REPO_NAME}-c;fi
+      - if [ $(docker ps -aq --filter name=${DRONE_REPO_NAME}-c) ]; then docker stop -f ${DRONE_REPO_NAME}-c;fi
+      - if [ $(docker ps -aq --filter name=${DRONE_REPO_NAME}-c -a) ]; then docker rm -f ${DRONE_REPO_NAME}-c;fi
       - docker run -d -p 31001:80 --name ${DRONE_REPO_NAME}-c ${DRONE_REPO_NAME}
 
 trigger:
