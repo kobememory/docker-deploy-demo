@@ -22,7 +22,7 @@ steps:
       - name: dockersock
         path: /var/run/docker.sock
     commands:
-      - docker build -t ${DRONE_REPO_NAME}
+      - docker build -t ${DRONE_REPO_NAME} .
       # - docker stop ${DRONE_REPO_NAME}
       # - docker rm ${DRONE_REPO_NAME}
       # - docker run -d -p 31001:80 --name ${DRONE_REPO_NAME} 123/${DRONE_REPO_NAME}
