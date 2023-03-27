@@ -15,11 +15,8 @@ steps:
 
   - name: docker_build
     image: docker
-    volumes:
-      - name: dockersock
-        path: /var/run/docker.sock
     commands:
-      - docker-compose -v
+      - docker-compose up
     # commands:
     #   - docker build -t ${DRONE_REPO_NAME} .
     #   - docker run -d -p 80:80 --name ${DRONE_REPO_NAME}-c ${DRONE_REPO_NAME}
