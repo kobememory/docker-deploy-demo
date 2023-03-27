@@ -13,9 +13,12 @@ steps:
       - npm install
       - npm run build
 
-  - name: docker
+  - name: docker_build
     image: docker
-    commands: 
+    volumes:
+      - name: dockersock
+        path: /var/run/docker.sock
+    commands:
       - docker-compose -v
     # commands:
     #   - docker build -t ${DRONE_REPO_NAME} .
