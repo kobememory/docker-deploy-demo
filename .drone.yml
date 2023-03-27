@@ -1,6 +1,9 @@
+---
 kind: pipeline
 type: docker
 name: drone-docker-deploy-test
+
+
 
 steps:
   - name: npm_build
@@ -15,12 +18,14 @@ steps:
 
   - name: docker_build
     image: docker
+    volumes:
+      - name: dockersock
+        path: /var/run/docker.sock
     commands:
-      - docker-compose up
-    # commands:
-    #   - docker build -t ${DRONE_REPO_NAME} .
-    #   - docker run -d -p 80:80 --name ${DRONE_REPO_NAME}-c ${DRONE_REPO_NAME}
-    #   - docker image prune -f
+      - docker build -t ${DRONE_REPO_NAME}
+      # - docker stop ${DRONE_REPO_NAME}
+      # - docker rm ${DRONE_REPO_NAME}
+      # - docker run -d -p 31001:80 --name ${DRONE_REPO_NAME} 123/${DRONE_REPO_NAME}
 
 trigger:
   branch:
