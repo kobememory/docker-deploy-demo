@@ -1,9 +1,6 @@
----
 kind: pipeline
 type: docker
 name: drone-docker-deploy-test
-
-
 
 steps:
   - name: npm_build
@@ -16,15 +13,17 @@ steps:
       - npm install
       - npm run build
 
-  # - name: docker_build
-  #   image: plugins/docker
-  #   settings:
-  #     repo: 1234/abc # 镜像库名
-  #     tags: #分支
-  #       - dev
-  #     dry_run: false # boolean if the docker image should be pushed at the end 是否提交docker镜像 
-  #     purge: false # boolean if cleanup of the docker image should be done at the end # 是否清理镜像
-  #     no_cache: false # do not use cached intermediate containers 不使用缓存中间容器
+  - name: docker_build
+    image: docker
+    volumes:
+      - name: dockersock
+        path: /var/run/docker.sock
+    commands:
+      - docker build -t ${DRONE_REPO_NAME}
+      - docker stop ${DRONE_REPO_NAME}-c
+      - docker rm ${DRONE_REPO_NAME}-c
+      - docker run -d -p 80:80 --name ${DRONE_REPO_NAME}-c 123/${DRONE_REPO_NAME}
+      - docker image prune -f
 
 trigger:
   branch:
@@ -36,3 +35,6 @@ volumes:
   - name: node_modules
     host:
       path: /data/drone/drone-ci-demo/node_modules
+  - name: dockersock
+    host:
+      path: /var/run/docker.sock
