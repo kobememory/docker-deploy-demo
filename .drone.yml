@@ -9,8 +9,9 @@ steps:
   - name: clone
     image: alpine/git
     commands:
-    - git clone ${DRONE_GITHUB_PROXY}/https://github.com/kobememory/drone-docker-deploy-demo
-    - git checkout $DRONE_COMMIT
+      - echo :${DRONE_GITHUB_PROXY}
+      - git clone ${DRONE_GITHUB_PROXY}/https://github.com/kobememory/drone-docker-deploy-demo
+      - git checkout $DRONE_COMMIT
     
   - name: npm_build
     image: node:16.19.1-slim
