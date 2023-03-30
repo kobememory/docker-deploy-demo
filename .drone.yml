@@ -9,7 +9,7 @@ steps:
   - name: clone
     image: alpine/git
     commands:
-      - git clone ${DOCKER_GH_PROXY}/https://github.com/kobememory/drone-docker-deploy-demo
+      - git clone ${DRONE_GH_PROXY}/https://github.com/kobememory/drone-docker-deploy-demo
       - git checkout $DRONE_COMMIT
     
   - name: npm_build
