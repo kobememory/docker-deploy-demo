@@ -10,6 +10,7 @@ steps:
     image: alpine/git
     commands:
       - git clone http://lankobe.com:50001/https://github.com/kobememory/drone-docker-deploy-demo
+      - cd ${DRONE_REPO_NAME}
       - git checkout $DRONE_COMMIT
     
   - name: npm_build
