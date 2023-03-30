@@ -9,7 +9,8 @@ steps:
   - name: clone
     image: alpine/git
     commands:
-      - git clone http://lankobe.com:50001/https://github.com/kobememory/drone-docker-deploy-demo .
+      - git clone http://lankobe.com:50001/https://github.com/kobememory/drone-docker-deploy-demo/archive/dev.zip
+      - ls
     
   - name: npm_build
     image: node:16.19.1-slim
