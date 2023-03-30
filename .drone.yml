@@ -9,9 +9,10 @@ steps:
   - name: clone
     image: alpine/git
     commands:
-      - git clone http://lankobe.com:50001/https://github.com/kobememory/drone-docker-deploy-demo
-      - cd ${DRONE_REPO_NAME}
-      - git checkout $DRONE_COMMIT
+      - pwd
+      # - cd /drone/src/
+      # - git clone http://lankobe.com:50001/https://github.com/kobememory/drone-docker-deploy-demo
+
     
   - name: npm_build
     image: node:16.19.1-slim
@@ -19,6 +20,7 @@ steps:
       - name: node_modules # 数据卷名称
         path: /drone/src/node_modules # 容器内目录绝对路径
     commands:
+      - pwd
       - npm config set registry https://registry.npm.taobao.org
       - npm install
       - npm run build
