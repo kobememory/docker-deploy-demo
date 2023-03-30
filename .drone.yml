@@ -9,7 +9,6 @@ steps:
   - name: clone
     image: alpine/git
     commands:
-      - echo :${DRONE_GITHUB_PROXY}
       - git clone ${DRONE_GITHUB_PROXY}/https://github.com/kobememory/drone-docker-deploy-demo
       - git checkout $DRONE_COMMIT
     
