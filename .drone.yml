@@ -4,11 +4,12 @@ name: drone-docker-deploy-test
 
 steps:
   - name: npm_build
-    # image: node:16.19.1-slim
-    image: node:12.18.0-slim
+    image: node:16.19.1-slim
     volumes:
       - name: node_modules # 数据卷名称
         path: /drone/src/node_modules # 容器内目录绝对路径
+      - name: web_build_dir
+        path: /drone/src/dist
     commands:
       - npm config set registry https://registry.npm.taobao.org
       - npm install
@@ -36,6 +37,9 @@ volumes:
   - name: node_modules
     host:
       path: /data/drone/drone-ci-demo/node_modules
-  - name: dockersock
+  # - name: dockersock
+  #   host:
+  #     path: /var/run/docker.sock
+  - name: web_build_dir
     host:
-      path: /var/run/docker.sock
+      path: /var/www/demo.lankobe.com/public
