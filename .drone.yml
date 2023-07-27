@@ -8,12 +8,12 @@ steps:
     volumes:
       - name: node_modules # 数据卷名称
         path: /drone/src/node_modules # 容器内目录绝对路径
-      - name: web_build_dir
-        path: /drone/src/dist
     commands:
       - npm config set registry https://registry.npm.taobao.org
       - npm install
       - npm run build
+      - docker compose down
+      - docker compose up -d
 
   # - name: docker_build
   #   image: docker
@@ -40,6 +40,3 @@ volumes:
   # - name: dockersock
   #   host:
   #     path: /var/run/docker.sock
-  - name: web_build_dir
-    host:
-      path: /var/www/demo.lankobe.com/public
