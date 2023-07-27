@@ -4,7 +4,8 @@ name: drone-docker-deploy-test
 
 steps:
   - name: npm_build
-    image: node:16.19.1-slim
+    # image: node:16.19.1-slim
+    image: node:12.18.0-slim
     volumes:
       - name: node_modules # 数据卷名称
         path: /drone/src/node_modules # 容器内目录绝对路径
@@ -13,17 +14,17 @@ steps:
       - npm install
       - npm run build
 
-  - name: docker_build
-    image: docker
-    volumes:
-      - name: dockersock
-        path: /var/run/docker.sock
-    commands:
-      - docker build -t ${DRONE_REPO_NAME} .
-      - if [ $(docker ps -aq --filter name=${DRONE_REPO_NAME}-c) ]; then docker stop ${DRONE_REPO_NAME}-c;fi
-      - if [ $(docker ps -aq --filter name=${DRONE_REPO_NAME}-c -a) ]; then docker rm -f ${DRONE_REPO_NAME}-c;fi
-      - docker run -d -p 8001:80 --name ${DRONE_REPO_NAME}-c ${DRONE_REPO_NAME}
-      - docker image prune -f
+  # - name: docker_build
+  #   image: docker
+  #   volumes:
+  #     - name: dockersock
+  #       path: /var/run/docker.sock
+  #   commands:
+  #     - docker build -t ${DRONE_REPO_NAME} .
+  #     - if [ $(docker ps -aq --filter name=${DRONE_REPO_NAME}-c) ]; then docker stop ${DRONE_REPO_NAME}-c;fi
+  #     - if [ $(docker ps -aq --filter name=${DRONE_REPO_NAME}-c -a) ]; then docker rm -f ${DRONE_REPO_NAME}-c;fi
+  #     - docker run -d -p 8001:80 --name ${DRONE_REPO_NAME}-c ${DRONE_REPO_NAME}
+  #     - docker image prune -f
 
 trigger:
   branch:
@@ -31,10 +32,10 @@ trigger:
   event:
     - push
 
-volumes:
-  - name: node_modules
-    host:
-      path: /data/drone/drone-ci-demo/node_modules
-  - name: dockersock
-    host:
-      path: /var/run/docker.sock
+# volumes:
+#   - name: node_modules
+#     host:
+#       path: /data/drone/drone-ci-demo/node_modules
+#   - name: dockersock
+#     host:
+#       path: /var/run/docker.sock
