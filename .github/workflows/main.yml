@@ -58,7 +58,16 @@ jobs:
           push: true
           tags: ${{ env.IMAGE_TAG }}
 
-      # 登录阿里云服务器
+      # 登录阿里云服务器，拉取镜像并启动容器
+      - name: Docker Compose
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USERNAME }}
+          key: ${{ secrets.ALIYUN_RSA_PRIVATE_KEY }}
+        script: |
+          echo ${{ secrets.ALIYUN_DOCKER_PASSWORD }} | docker login --username ${{ secrets.ALIYUN_DOCKER_USERNAME }} --password-stdin ${{ secrets.ALIYUN_DOCKER_REGISTRY }}
+          docker pull ${{ env.IMAGE_TAG }}
       
 
       # - name: Configure SSH keys
