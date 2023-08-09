@@ -9,7 +9,7 @@ steps:
   - name: Step 1
     image: alpine/git
     commands:
-      - echo 'hello world'
+      - git clone https://github.com/kobememory/drone-docker-deploy-demo.git
   - name: npm_build
     image: node:16.19.1-slim
     volumes:
