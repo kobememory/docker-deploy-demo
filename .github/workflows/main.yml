@@ -26,5 +26,6 @@ jobs:
         run: |
           ssh root@121.43.33.219
           ls
+          pwd
           # 这里放置您的部署命令，比如 scp、rsync、ssh 等
           # 示例：scp -r ./dist user@your-server-ip:/path/to/destination
