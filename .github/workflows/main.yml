@@ -1,0 +1,30 @@
+name: Deploy to Aliyun Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Configure SSH keys
+        env:
+          PRIVATE_KEY: ${{ secrets.ALIYUN_RSA_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H 121.43.33.219 >> ~/.ssh/known_hosts
+
+      - name: Deploy to Server
+        run: |
+          ssh root@121.43.33.219
+          ls
+          # 这里放置您的部署命令，比如 scp、rsync、ssh 等
+          # 示例：scp -r ./dist user@your-server-ip:/path/to/destination
