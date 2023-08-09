@@ -2,7 +2,13 @@ kind: pipeline
 type: docker
 name: drone-docker-deploy-test
 
+clone:
+  disable: true
+
 steps:
+  - name: Step 1
+    commands:
+      - echo 'hello world'
   - name: npm_build
     image: node:16.19.1-slim
     volumes:
