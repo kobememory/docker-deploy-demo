@@ -8,7 +8,6 @@ on:
 env:
   DOCKER_NAMESPACE: lankobe
   BASE_IMAGE_NAME: vue3_github_action_docker_deploy_demo
-  IMAGE_TAG: ${{ secrets.ALIYUN_DOCKER_REGISTRY }}/${{ env.DOCKER_NAMESPACE }}/${{ env.BASE_IMAGE_NAME}}:${{ github.sha }}
 
 jobs:
   deploy:
@@ -17,6 +16,11 @@ jobs:
       matrix:
         node-version: [16.x]
     steps:
+      # 定义环境变量
+      - name: Set env
+        run: |
+          echo "IMAGE_TAG=${{ secrets.ALIYUN_DOCKER_REGISTRY }}/${{ env.DOCKER_NAMESPACE }}/${{ env.BASE_IMAGE_NAME}}:${{ github.sha }}" >> $GITHUB_ENV
+
       # 拉取指定分支代码
       - name: Checkout code
         uses: actions/checkout@v2
